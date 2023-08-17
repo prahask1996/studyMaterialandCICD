@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: copy compose
+      copy:
+        src: ../docker-compose/docker-compose-nginx.yml #change name
+        dest: /opt/nginx-get2aha.yml #change name
+    - name: create nginx stack
+      docker_stack:  
+        name: get2aha-nginx
+        state: present
+        resolve_image: always
+        compose:
+          - /opt/nginx-get2aha.yml

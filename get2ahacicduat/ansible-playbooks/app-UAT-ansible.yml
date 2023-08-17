@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: copy compose
+      copy:
+        src: ../docker-compose/docker-compose.yml #change name
+        dest: /opt/app-get2aha.yml #change name
+    - name: create app stack
+      docker_stack:
+        name: get2aha
+        state: present
+        resolve_image: always
+        compose:
+          - /opt/app-get2aha.yml    

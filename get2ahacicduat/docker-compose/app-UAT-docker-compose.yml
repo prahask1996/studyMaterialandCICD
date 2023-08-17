@@ -1,0 +1,105 @@
+version: "3.6"
+ 
+services:
+  get2aha:
+    image: prahaskattimani/get2aha
+    network_mode: bridge
+    container_name: get2aha
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      VIRTUAL_HOST: get2aha.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_HOST: get2aha.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_EMAIL: prahas.kattimani@pratian.com #change it to your email
+      VIRTUAL_PORT: "5004"
+    ports:
+      - "5004:5004"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  identity:
+    image: prahaskattimani/identity
+    network_mode: bridge
+    container_name: identity
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      VIRTUAL_HOST: identity.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_HOST: identity.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_EMAIL: prahas.kattimani@pratian.com #change it to your email
+      VIRTUAL_PORT: "5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  client:
+    image: prahaskattimani/client
+    container_name: client
+    network_mode: bridge
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      VIRTUAL_HOST: client.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_HOST: client.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_EMAIL: prahas.kattimani@pratian.com #change it to your email
+      VIRTUAL_PORT: "5001"
+    ports:
+      - "5001:5001"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  engagement:
+    image: prahaskattimani/engagement
+    network_mode: bridge
+    container_name: engagement
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      VIRTUAL_HOST: engagement.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_HOST: engagement.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_EMAIL: prahas.kattimani@pratian.com #change it to your email
+      VIRTUAL_PORT: "5002"
+    ports:
+      - "5002:5002"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"   
+  admin:
+    image: prahaskattimani/admin
+    network_mode: bridge
+    container_name: admin
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      VIRTUAL_HOST: admin.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_HOST: admin.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_EMAIL: prahas.kattimani@pratian.com #change it to your email
+      VIRTUAL_PORT: "5003"
+    ports:
+      - "5003:5003"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  node_api:
+    image: prahaskattimani/node
+    network_mode: bridge
+    container_name: node_api
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      VIRTUAL_HOST: azure.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_HOST: azure.uat.gt2aha.ptatian.com #change it to your host
+      LETSENCRYPT_EMAIL: prahas.kattimani@pratian.com #change it to your email
+      VIRTUAL_PORT: "5005"
+    ports:
+      - "5005:5005"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"    

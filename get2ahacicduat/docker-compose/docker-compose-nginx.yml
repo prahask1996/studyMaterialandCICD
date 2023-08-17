@@ -1,0 +1,56 @@
+version: "3.7"
+ 
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    #image: joeriv/nginx-proxy-letsencrypt-swarm
+    network_mode: bridge
+    container_name: nginx-proxy
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - certs:/etc/nginx/certs
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+   # tags:
+    #  - nginx
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    network_mode: bridge
+    container_name: nginx-proxy-letsencrypt
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      #- "/media/data/docker/nginx/certs:/etc/nginx/certs:rw"
+      - certs:/etc/nginx/certs
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - acme:/etc/acme.sh
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    #volumes_from: 
+     # - nginx-proxy
+   # tags:
+    #  - nginx
+volumes:
+  certs:
+  conf:
+  vhost:
+  html:
+  acme:
+  dhparam:
+  

@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+  database:
+    image: postgres:latest
+    network_mode: bridge
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWOR: "p@ssw0rd@123"
+      POSTGRES_DB: "Get2aha"
+    volumes:
+      - db_volume:/var/lib/postrgresql/data
+    ports:
+      - "5432:5432"
+
+  pg4admin_image:
+    image: dpage/pgadmin4:5.3
+    network_mode: bridge
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: prahas.kattimani@pratian.com
+      PGADMIN_DEFAULT_PASSWORD: pg@dmin@123
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    links:
+      - "database:pgsql-server"
